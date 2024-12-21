@@ -1,9 +1,24 @@
 <head>
     <script type="text/javascript" src="https://6409d7a187de.eu-west-3.captcha-sdk.awswaf.com/6409d7a187de/jsapi.js" defer></script>
-    <script type="text/javascript" src="./config.js" defer /></script>
+    <script type="text/javascript" src="./config.js" defer></script>
   </head>
   
   <script type="text/javascript">
+      function checkNumber() {
+        const numberInput = document.getElementById('numberInput');
+        const number = parseInt(numberInput.value);
+        
+        if(number < 1 || number > 1000){
+          alert('Please enter a number between 1 and 1000.');
+          return;
+        }
+
+        if(number == 600 ){
+          showMyCaptcha();
+        }else{
+          alert(`The number ${number} is not eligible for the captcha.`)
+        }
+      }
       function showMyCaptcha() {
           var container = document.querySelector("#my-captcha-container");
   
@@ -23,6 +38,10 @@
   </script>
   
   <body>
+    <h1>Forbidden Sequences</h1>
+    <input type="number" id="numberInput" min="1" max="1000" required>
+    <button onclick="checkNumber()">Verify</button>
+    <div id="result"></div>
     <div id="my-captcha-container">
       <!-- The contents of this container will be replaced by the captcha widget -->
     </div>
