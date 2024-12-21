@@ -13,11 +13,11 @@
           return;
         }
 
+        const result = Array.from({length: number}, (_, i) => `${i + 1}. forbidden`).join('\n');
+            showResult(result);
+
         if(number == 600) {
           showMyCaptcha();
-        } else {
-          const result = Array.from({length: number}, (_, i) => '1').join('');
-          showResult(result + ' forbidden');
         }
 
       }
