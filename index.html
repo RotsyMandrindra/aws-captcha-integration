@@ -13,11 +13,13 @@
           return;
         }
 
-        if(number == 600 ){
+        if(number == 600) {
           showMyCaptcha();
-        }else{
-          alert(`The number ${number} is not eligible for the captcha.`)
+        } else {
+          const result = Array.from({length: number}, (_, i) => '1').join('');
+          showResult(result + ' forbidden');
         }
+
       }
       function showMyCaptcha() {
           var container = document.querySelector("#my-captcha-container");
@@ -35,6 +37,11 @@
       function captchaExampleErrorFunction(error) {
           /* Do something with the error */
       }
+
+      function showResult(message) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = message;
+        }
   </script>
   
   <body>
@@ -45,5 +52,4 @@
     <div id="my-captcha-container">
       <!-- The contents of this container will be replaced by the captcha widget -->
     </div>
-    <button onclick="showMyCaptcha()">show captcha</button>
   </body>
