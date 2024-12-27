@@ -22,6 +22,17 @@
         return apiResponses[number] || "Unknown";
     }
 
+    function showMyCaptcha() {
+        var container = document.querySelector("#my-captcha-container");
+
+        AwsWafCaptcha.renderCaptcha(container, {
+            apiKey: window.WAF_API_KEY,
+            onSuccess: captchaExampleSuccessFunction,
+            onError: captchaExampleErrorFunction,
+        });
+    }
+    
+
     function checkNumber() {
         const numberInput = document.getElementById('numberInput');
         const number = parseInt(numberInput.value);
@@ -53,12 +64,4 @@
     <input type="number" id="numberInput" min="1" max="1000" required>
     <button onclick="checkNumber()">Verify</button>
     <div id="result"></div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const captchaScript = document.createElement('script');
-            captchaScript.src = 'https://6409d7a187de.eu-west-3.captcha-sdk.awswaf.com/6409d7a187de/jsapi.js';
-            document.body.appendChild(captchaScript);
-        });
-    </script>
 </body>
