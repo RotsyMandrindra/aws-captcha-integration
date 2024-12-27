@@ -1,55 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
 <head>
     <script type="text/javascript" src="https://6409d7a187de.eu-west-3.captcha-sdk.awswaf.com/6409d7a187de/jsapi.js" defer></script>
     <script type="text/javascript" src="./config.js" defer></script>
-  </head>
-  
-  <script type="text/javascript">
-      function checkNumber() {
+</head>
+
+<script type="text/javascript">
+    function generateForbiddenResponses() {
+    const apiResponses = {};
+    
+      for (let i = 1; i <= 1000; i++) {
+          apiResponses[i] = "Forbidden";
+      }
+    
+    return apiResponses;
+  }
+
+    function simulateApiCall(number) {
+        return apiResponses[number] || "Unknown";
+    }
+
+    function checkNumber() {
         const numberInput = document.getElementById('numberInput');
         const number = parseInt(numberInput.value);
         
-        if(number < 1 || number > 1000){
-          alert('Please enter a number between 1 and 1000.');
-          return;
+        if (number < 1 || number > 1000) {
+            alert('Please enter a number between 1 and 1000.');
+            return;
         }
 
-        const result = Array.from({length: number}, (_, i) => `${i + 1}. forbidden`).join('\n');
-            showResult(result);
-
-        if(number == 600) {
-          showMyCaptcha();
+        let result = '';
+        for (let i = 1; i <= number; i++) {
+            result += `${i}. ${simulateApiCall(i)}\n`;
         }
+        showResult(result);
 
-      }
-      function showMyCaptcha() {
-          var container = document.querySelector("#my-captcha-container");
+        if (number === 600) {
+            showMyCaptcha();
+        }
+    }
+
+    function showMyCaptcha() {
+        var container = document.querySelector("#my-captcha-container");
   
-          AwsWafCaptcha.renderCaptcha(container, {
-              apiKey: window.WAF_API_KEY,
-              onSuccess: captchaExampleSuccessFunction,
-              onError: captchaExampleErrorFunction,
-          });
-      }
-      
-      function captchaExampleSuccessFunction(wafToken) {
-      }
-      
-      function captchaExampleErrorFunction(error) {
-          /* Do something with the error */
-      }
+        AwsWafCaptcha.renderCaptcha(container, {
+            apiKey: window.WAF_API_KEY,
+            onSuccess: captchaExampleSuccessFunction,
+            onError: captchaExampleErrorFunction,
+        });
+    }
+    
+    function captchaExampleSuccessFunction(wafToken) {
+        console.log("Captcha successfully resolved");
+    }
+    
+    function captchaExampleErrorFunction(error) {
+        console.error("Captcha error:", error);
+    }
 
-      function showResult(message) {
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = message;
-        }
-  </script>
-  
-  <body>
-    <h1>Forbidden Sequences</h1>
+    function showResult(message) {
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = message;
+    }
+</script>
+
+<body>
+    <h1>Simulate API Calls</h1>
     <input type="number" id="numberInput" min="1" max="1000" required>
-    <button onclick="checkNumber()">Verify</button>
+    <button onclick="checkNumber()">Simulate</button>
     <div id="result"></div>
-    <div id="my-captcha-container">
-      <!-- The contents of this container will be replaced by the captcha widget -->
-    </div>
-  </body>
+    <div id="my-captcha-container"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const captchaScript = document.createElement('script');
+            captchaScript.src = 'https://6409d7a187de.eu-west-3.captcha-sdk.awswaf.com/6409d7a187de/jsapi.js';
+            document.body.appendChild(captchaScript);
+        });
+    </script>
+</body>
